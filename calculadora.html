@@ -1,0 +1,141 @@
+<html>
+    <style>
+        *{margin: 0;padding: 0;box-sizing: 0;}
+
+        body{
+            background-image: linear-gradient(135deg, #2155BF, #9721BF);
+        }
+
+        .calculadora{
+            background-color: black;
+            opacity: 80%;
+            color: white;
+            font-family: 'Times New Roman', Times, serif;
+            max-width: 235px; <!-- normal é 250px -->
+            width: 70%;
+            padding: 20px; 
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 15px;
+            text-align: center;        
+        }      
+        .botao-comando{
+            background-color: #A5A5A5;
+            width: 50px;
+            height: 50px;
+            margin: 3px;
+            cursor: pointer;
+            border-radius: 25px;
+            color: black;
+            font-size: 20px;
+        }
+        .botao-comando:hover{
+            background-color: white;
+            color: black;
+        }
+        .botao-numero{
+            background-color: #333333;
+            width: 50px;
+            height: 50px;
+            margin: 3px;
+            cursor: pointer;
+            border-radius: 25px;
+            color: white;
+            font-size: 20px;
+        }
+        .botao-numero:hover{
+            background-color: white;
+            color: black;    
+        }
+        .botao-operacao{
+            background-color: yellow;
+            width: 50px;
+            height: 50px;
+            margin: 3px;
+            cursor: pointer;
+            border-radius: 25px;
+            color: white;
+            font-size: 20px;
+        }
+        .botao-operacao:hover{
+            background-color: white;
+            color: black;
+        }
+        #tela{
+            background-color: white;
+            width: 100%  -5px;
+            height: 30px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            font-size: 25px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            color: black;
+            text-align: right;
+            padding: 5px;
+        }
+    </style>
+
+    <body>
+      <div class="fundo">
+            <div class="calculadora">
+                <h1>Calculadora</h1>
+                <p id="tela"></p>
+                <table>
+                    <tr>
+                        <td><button class="botao-comando" onclick="clean()">CC</button></td>
+                        <td><button class="botao-comando" onclick="back()"><</button></td>
+                        <td><button class="botao-comando">%</button></td>
+                        <td><button class="botao-operacao" onclick="insert('/')">/</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="botao-numero" onclick="insert('7')">7</button></td>
+                        <td><button class="botao-numero" onclick="insert('8')">8</button></td>
+                        <td><button class="botao-numero" onclick="insert('9')">9</button></td>
+                        <td><button class="botao-operacao" onclick="insert('*')">X</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="botao-numero" onclick="insert('4')">4</button></td>
+                        <td><button class="botao-numero" onclick="insert('5')">5</button></td>
+                        <td><button class="botao-numero" onclick="insert('6')">6</button></td>
+                        <td><button class="botao-operacao" onclick="insert('-')">-</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="botao-numero" onclick="insert('1')">1</button></td>
+                        <td><button class="botao-numero" onclick="insert('2')">2</button></td>
+                        <td><button class="botao-numero" onclick="insert('3')">3</button></td>
+                        <td><button class="botao-operacao" onclick="insert('+')">+</button></td>
+                    </tr>
+                    <!-- colspan="nº" é para ocupar mais de uma coluna e rowspan="nº" -->
+                    <tr>
+                        <td colspan="2"><button class="botao-numero" onclick="insert('0')" style="width: 106px;">0</button></td>
+                        <td><button class="botao-numero" onclick="insert('.')">.</button></td>
+                        <td><button class="botao-operacao" onclick="calcular()">=</button></td>
+                    </tr>
+                </table>
+            </div>
+      </div>
+      <script>
+        function insert(num){
+            let numero = document.getElementById('tela').innerHTML;
+            document.getElementById('tela').innerHTML = numero + num;
+        }
+        function clean(){
+            document.getElementById('tela').innerHTML = "";
+        }
+        function back(){
+            let apagar = document.getElementById('tela').innerHTML;
+            document.getElementById('tela').innerHTML = apagar.substring(0, apagar.length -1);
+        }
+        function calcular(){
+            let calcular = document.getElementById('tela').innerHTML;
+
+            if(calcular){
+                document.getElementById('tela').innerHTML = eval(calcular);
+            }
+        }
+      </script>
+    </body>
+</html>
