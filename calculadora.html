@@ -11,7 +11,7 @@
             opacity: 80%;
             color: white;
             font-family: 'Times New Roman', Times, serif;
-            max-width: 235px; <!-- normal é 250px -->
+            max-width: 235px;
             width: 70%;
             padding: 20px; 
             position: absolute;
@@ -82,7 +82,7 @@
       <div class="fundo">
             <div class="calculadora">
                 <h1>Calculadora</h1>
-                <p id="tela"></p>
+                <p id="tela">0</p>
                 <table>
                     <tr>
                         <td><button class="botao-comando" onclick="clean()">CC</button></td>
@@ -120,15 +120,45 @@
       <script>
         function insert(num){
             let numero = document.getElementById('tela').innerHTML;
-            document.getElementById('tela').innerHTML = numero + num;
+
+                //Condição para quando adicionar números na string e tiver 0 na tela.
+                if(numero == 0){
+                    if(num == "." && numero == 0.0 ){
+                        //Quando for adicionar . primeiro e tiver 0 na tela, o 0.0 = 0 logo adicionei na codição
+                        document.getElementById('tela').innerHTML = numero + num;
+                    }
+                    else{
+                        //Quando adicionar o primeiro número, sobrescrever sobre o 0.
+                        document.getElementById('tela').innerHTML = num; 
+                    }
+                }
+                else if(numero != 0 || numero != 0.){
+                    document.getElementById('tela').innerHTML = numero + num;
+                }
+                
         }
+
         function clean(){
-            document.getElementById('tela').innerHTML = "";
+            //Ativar o botao limpar tudo
+            document.getElementById('tela').innerHTML = 0;
         }
+
         function back(){
             let apagar = document.getElementById('tela').innerHTML;
-            document.getElementById('tela').innerHTML = apagar.substring(0, apagar.length -1);
+
+            if(apagar == 0 && apagar.length == 1){
+                //Não deixar apagar o 0 da tela.
+            }
+            else if(apagar.length == 1){
+                //Quando conter só um digito na string e quiser apagar, voltar para o 0 na tela.
+                document.getElementById('tela').innerHTML = 0;
+            }
+            else{
+                //Apagar o último número da tela.
+                document.getElementById('tela').innerHTML = apagar.substring(0, apagar.length -1);      
+            }
         }
+
         function calcular(){
             let calcular = document.getElementById('tela').innerHTML;
 
