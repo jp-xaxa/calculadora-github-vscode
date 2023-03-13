@@ -63,18 +63,28 @@
             background-color: white;
             color: black;
         }
-        #tela{
+        .tela{
             background-color: white;
-            width: 100%  -5px;
-            height: 30px;
+            height: 55px;
             margin-top: 5px;
             margin-bottom: 5px;
             border-radius: 5px;
+            padding: 5px;
+        }
+        #tela1{
+            font-size: 15px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            opacity: 90%;
+            color: black;
+            text-align: right;
+            padding: 3px;
+        }
+        #tela2{
             font-size: 25px;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             color: black;
             text-align: right;
-            padding: 5px;
+            padding: 5px; 
         }
     </style>
 
@@ -82,31 +92,34 @@
       <div class="fundo">
             <div class="calculadora">
                 <h1>Calculadora</h1>
-                <p id="tela">0</p>
+                <div class = "tela">
+                    <p id="tela1"></p>
+                    <p id="tela2">0</p>
+                </div>
                 <table>
                     <tr>
                         <td><button class="botao-comando" onclick="clean()">CC</button></td>
                         <td><button class="botao-comando" onclick="back()"><</button></td>
-                        <td><button class="botao-comando">%</button></td>
-                        <td><button class="botao-operacao" onclick="insert('/')">/</button></td>
+                        <td><button class="botao-comando" onclick="insert('%')">%</button></td>
+                        <td><button class="botao-operacao" onclick="simbolo(' /')">/</button></td>
                     </tr>
                     <tr>
                         <td><button class="botao-numero" onclick="insert('7')">7</button></td>
                         <td><button class="botao-numero" onclick="insert('8')">8</button></td>
                         <td><button class="botao-numero" onclick="insert('9')">9</button></td>
-                        <td><button class="botao-operacao" onclick="insert('*')">X</button></td>
+                        <td><button class="botao-operacao" onclick="simbolo(' * ')">X</button></td>
                     </tr>
                     <tr>
                         <td><button class="botao-numero" onclick="insert('4')">4</button></td>
                         <td><button class="botao-numero" onclick="insert('5')">5</button></td>
                         <td><button class="botao-numero" onclick="insert('6')">6</button></td>
-                        <td><button class="botao-operacao" onclick="insert('-')">-</button></td>
+                        <td><button class="botao-operacao" onclick="simbolo(' - ')">-</button></td>
                     </tr>
                     <tr>
                         <td><button class="botao-numero" onclick="insert('1')">1</button></td>
                         <td><button class="botao-numero" onclick="insert('2')">2</button></td>
                         <td><button class="botao-numero" onclick="insert('3')">3</button></td>
-                        <td><button class="botao-operacao" onclick="insert('+')">+</button></td>
+                        <td><button class="botao-operacao" onclick="simbolo(' + ')">+</button></td>
                     </tr>
                     <!-- colspan="nº" é para ocupar mais de uma coluna e rowspan="nº" -->
                     <tr>
@@ -119,51 +132,89 @@
       </div>
       <script>
         function insert(num){
-            let numero = document.getElementById('tela').innerHTML;
-
+            let imprimir = document.getElementById('tela1').innerHTML;
+            let numero = document.getElementById('tela2').innerHTML;
+                
                 //Condição para quando adicionar números na string e tiver 0 na tela.
-                if(numero == 0){
-                    if(num == "." && numero == 0.0 ){
-                        //Quando for adicionar . primeiro e tiver 0 na tela, o 0.0 = 0 logo adicionei na codição
-                        document.getElementById('tela').innerHTML = numero + num;
+                if(numero == 0 ){
+                    if(num === "." && numero.indexOf('.') === -1){
+                        //Quando for adicionar . primeiro e tiver 0 na tela.
+                        document.getElementById('tela2').innerHTML = numero + num;
                     }
-                    else{
-                        //Quando adicionar o primeiro número, sobrescrever sobre o 0.
-                        document.getElementById('tela').innerHTML = num; 
+                    else if(num === "." && numero.indexOf('.') !== -1){
+                        //Não pode adicionar mais de um ponto.
+                        alert("Não pode adicionar mais de um ponto.")
                     }
+                    else if(numero === 0.0 || numero.indexOf('.') !==-1){
+                        //Adicionar 0 depois de um .
+                        document.getElementById('tela2').innerHTML = numero + num;
+                    }
+                    else /*if(num != 0)*/{
+                        //Quando adicionar o primeiro número diferente de 0, sobrescrever sobre o 0.
+                        document.getElementById('tela2').innerHTML = num;
+                    }
+                }
+                else if(num == "%"){
+                    //Fazer contas em porcentagem.
+                    document.getElementById('tela2').innerHTML = (numero * 0.01);
+                }
+                else if(num == "." && numero.indexOf(".") != -1){
+                    //Não deixar adicionar outro ponto.
+                    alert("Não pode adicionar mais do que um ponto.")
+                }
+                else if(imprimir[imprimir.length-1] == "="){ 
+                    //Quando o "=" é a última váriavel da string tela1, finalizar a conta existente e iniciar uma nova.
+                    document.getElementById('tela1').innerHTML = "";
+                    document.getElementById('tela2').innerHTML = num;
                 }
                 else if(numero != 0 || numero != 0.){
-                    document.getElementById('tela').innerHTML = numero + num;
+                    //Adicionar números quando não tiver 0 na tela2
+                    document.getElementById('tela2').innerHTML = numero + num;
+                }               
+        }
+
+        function simbolo(num){
+            let imprimir = document.getElementById('tela1').innerHTML;
+            let numero = document.getElementById('tela2').innerHTML;
+
+                if(imprimir == ""){
+                    document.getElementById('tela1').innerHTML = numero + num;
+                    document.getElementById('tela2').innerHTML = 0;
+                }else{
+                    document.getElementById('tela1').innerHTML = eval(imprimir + numero) + num;
+                    document.getElementById('tela2').innerHTML = 0;
                 }
-                
         }
 
         function clean(){
             //Ativar o botao limpar tudo
-            document.getElementById('tela').innerHTML = 0;
+            document.getElementById('tela1').innerHTML = "";
+            document.getElementById('tela2').innerHTML = 0;
         }
 
         function back(){
-            let apagar = document.getElementById('tela').innerHTML;
+            let apagar = document.getElementById('tela2').innerHTML;
 
             if(apagar == 0 && apagar.length == 1){
                 //Não deixar apagar o 0 da tela.
             }
             else if(apagar.length == 1){
                 //Quando conter só um digito na string e quiser apagar, voltar para o 0 na tela.
-                document.getElementById('tela').innerHTML = 0;
+                document.getElementById('tela2').innerHTML = 0;
             }
             else{
                 //Apagar o último número da tela.
-                document.getElementById('tela').innerHTML = apagar.substring(0, apagar.length -1);      
+                document.getElementById('tela2').innerHTML = apagar.substring(0, apagar.length -1);      
             }
         }
 
         function calcular(){
-            let calcular = document.getElementById('tela').innerHTML;
+            let imprimir = document.getElementById('tela1').innerHTML;
+            let calcular = document.getElementById('tela2').innerHTML;
 
             if(calcular){
-                document.getElementById('tela').innerHTML = eval(calcular);
+                document.getElementById('tela1').innerHTML = imprimir + calcular + " =";
+                document.getElementById('tela2').innerHTML = eval(imprimir + calcular);
             }
         }
       </script>
